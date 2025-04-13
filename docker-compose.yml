@@ -1,0 +1,45 @@
+version: '3.8'
+
+x-worker-defaults: &worker-defaults
+  build:
+    context: ./worker
+    dockerfile: Dockerfile
+  env_file:
+    - ./worker/.env
+  restart: unless-stopped
+  networks:
+    - default
+
+services:
+  manager:
+    build:
+      context: ./manager
+      dockerfile: Dockerfile
+    env_file:
+      - ./manager/.env
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - default
+    depends_on:
+      worker1:
+        condition: service_started
+      worker2:
+        condition: service_started
+      worker3:
+        condition: service_started
+
+  worker1:
+    <<: *worker-defaults
+
+  worker2:
+    <<: *worker-defaults
+
+  worker3:
+    <<: *worker-defaults
+
+networks:
+  default:
+    driver: bridge

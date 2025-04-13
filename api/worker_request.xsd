@@ -1,0 +1,14 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="WorkerRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RequestId" type="xs:string" />
+                <xs:element name="Hash" type="xs:string" />
+                <xs:element name="Alphabet" type="xs:string" />
+                <xs:element name="MaxLength" type="xs:int" />
+                <xs:element name="PartNumber" type="xs:int" />
+                <xs:element name="PartCount" type="xs:int" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
