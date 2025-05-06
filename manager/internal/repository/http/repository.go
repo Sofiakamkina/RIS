@@ -1,4 +1,4 @@
-package repository
+package http
 
 import (
 	"bytes"
@@ -63,7 +63,13 @@ func (r *Repository) SendTaskToWorker(workerURL string, task domain.WorkerTask) 
 		return errors.New("received non-OK HTTP status")
 	}
 
-	r.logger.Info("task successfully sent to worker", "workerURL", workerURL)
+	r.logger.Info("task successfully sent to worker",
+		"workerURL", workerURL,
+		"request_id", task.RequestId,
+		"hash", task.Hash,
+		"part_number", task.PartNumber,
+		"part_count", task.PartCount,
+	)
 
 	return nil
 }

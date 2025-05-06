@@ -18,6 +18,7 @@ WORKDIR /app
 
 COPY --from=builder /app/cmd/worker .
 
-EXPOSE ${SERVER_PORT}
+EXPOSE ${MAIN_SERVER_PORT}
+EXPOSE ${PROBE_SERVER_PORT}
 
 CMD ["./worker"]

@@ -24,3 +24,9 @@ type WorkerTask struct {
 	PartNumber int
 	PartCount  int
 }
+
+type CrackHash struct {
+	RequestId string
+	Hash      string
+	MaxLength int
+}

@@ -10,6 +10,7 @@ type CrackHashResponse struct {
 }
 
 type CrackHashStatus struct {
-	Status string   `json:"status"`
-	Data   []string `json:"data"`
+	Status   string   `json:"status"`
+	Data     []string `json:"data"`
+	Progress int      `json:"progress"`
 }

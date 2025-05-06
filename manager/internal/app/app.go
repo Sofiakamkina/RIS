@@ -13,7 +13,8 @@ import (
 	mainrouter "manager/internal/adapters/http"
 	proberouter "manager/internal/adapters/http/probe"
 	"manager/internal/domain"
-	"manager/internal/repository"
+	httprepository "manager/internal/repository/http"
+	"manager/internal/repository/sql"
 	httpserver "manager/pkg/http"
 	"manager/pkg/logger"
 )
@@ -26,16 +27,25 @@ func Run() {
 
 	loggerInstance := logger.NewLogger(cfg.LogLevel)
 
-	repositoryInstance := repository.NewRepository(loggerInstance)
+	httpRepository := httprepository.NewRepository(loggerInstance)
+
+	sqlRepository := sql.NewRepository()
+	defer func() {
+		_ = sqlRepository.Close()
+	}()
 
 	hashUseCase := domain.NewHashUseCase(
 		cfg.WorkerCount,
 		strings.Split(cfg.WorkerURLs, ","),
 		cfg.Alphabet,
 		cfg.TTL,
-		repositoryInstance,
+		httpRepository,
+		sqlRepository,
 		loggerInstance,
 	)
+	if err = hashUseCase.Init(); err != nil {
+		log.Panicf("failed to initialize hash use-case: %s", err)
+	}
 
 	mainRouter := mainrouter.NewRouter(hashUseCase, loggerInstance)
 	mainServer := httpserver.New(cfg.MainServerPort, mainRouter)
