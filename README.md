@@ -30,9 +30,5 @@ CrackHash — распределённая система для подбора 
 
 docker-compose up --build
 ## Формат отправки запросов клиентом
+Интерфейс пользователя доступен по адресу: http://localhost:8080
 
-Отправка запроса на взлом хэша
-сurl -X POST http://localhost:8080/api/hash/crack \                                               
-  -H "Content-Type: application/json" \
-  -d '{"hash": "81dc9bdb52d04dc20036dbd8313ed055", "maxLength": 4}'Получение результата по requestId
-curl -X GET "http://localhost:8080/api/hash/status?requestId=61a6d633-8392-4367-aba0-50abe39cdcf8"
